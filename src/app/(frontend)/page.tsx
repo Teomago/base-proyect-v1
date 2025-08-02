@@ -17,6 +17,14 @@ export default async function HomePage() {
 
   return (
     <div className="home">
+      <div className="bg-gray-700 font-mono p-8 rounded-lg shadow-xl shadow-zinc-800">
+        <h1 className="w-fit font-bold size-16">Titulo de prueba</h1>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat excepturi reiciendis nisi
+          explicabo provident vitae amet blanditiis autem quo. Recusandae inventore eius optio
+          laborum quis quam voluptas nesciunt, deleniti soluta.
+        </p>
+      </div>
       <div className="content">
         <picture>
           <source srcSet="https://raw.githubusercontent.com/payloadcms/payload/main/packages/ui/src/assets/payload-favicon.svg" />

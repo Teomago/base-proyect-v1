@@ -23,27 +23,30 @@
     "@payloadcms/payload-cloud": "3.49.1",
     "@payloadcms/richtext-lexical": "3.49.1",
     "@payloadcms/ui": "3.49.1",
+    "@tailwindcss/postcss": "^4.1.11",
     "cross-env": "^7.0.3",
     "dotenv": "16.4.7",
-    "graphql": "^16.8.1",
+    "graphql": "^16.11.0",
     "next": "15.4.4",
     "payload": "3.49.1",
-    "react": "19.1.0",
-    "sharp": "0.34.2"
+    "postcss": "^8.5.6",
+    "react": "19.1.1",
+    "sharp": "0.34.2",
+    "tailwindcss": "^4.1.11"
   },
   "devDependencies": {
     "@playwright/test": "1.54.1",
     "@testing-library/react": "16.3.0",
-    "@types/node": "^22.5.4",
+    "@types/node": "^22.17.0",
     "@types/react": "19.1.8",
     "@types/react-dom": "19.1.6",
     "@vitejs/plugin-react": "4.5.2",
-    "eslint": "^9.16.0",
+    "eslint": "^9.32.0",
     "eslint-config-next": "15.4.4",
     "jsdom": "26.1.0",
     "playwright": "1.54.1",
     "playwright-core": "1.54.1",
-    "prettier": "^3.4.2",
+    "prettier": "^3.6.2",
     "typescript": "5.7.3",
     "vite-tsconfig-paths": "5.1.4",
     "vitest": "3.2.3"
@@ -54,8 +57,9 @@
   },
   "pnpm": {
     "onlyBuiltDependencies": [
-      "sharp",
+      "@tailwindcss/oxide",
       "esbuild",
+      "sharp",
       "unrs-resolver"
     ]
   }

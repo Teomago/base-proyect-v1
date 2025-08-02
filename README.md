@@ -148,6 +148,153 @@ To verify that Tailwind CSS v4 is working correctly, you can use the following e
 
 This component uses Tailwind CSS utility classes to style a simple card layout. If the styles render as expected, Tailwind CSS is functioning correctly.
 
+### HeroUI Integration with Tailwind CSS
+
+1. **Create HeroUI Configuration File**
+   Create a file named `hero.ts` in the `(frontend)` folder with the following content:
+   ```typescript
+   // hero.ts
+   import { heroui } from "@heroui/react";
+   export default heroui();
+   ```
+
+2. **Update Main CSS File**
+   Add the following lines to the `styles.css` file located in the `(frontend)` folder:
+   ```css
+   @import 'tailwindcss';
+   @plugin './hero.ts';
+   /* Note: You may need to change the path to fit your project structure */
+   @source '../../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}';
+   @custom-variant dark (&:is(.dark *));
+   ```
+
+3. **Set Language Mode to Tailwind CSS**
+   After updating the `styles.css` file, press `Ctrl+Shift+P` in VS Code, search for `Change Language Mode`, and select `Tailwind CSS` to ensure the rules are recognized correctly.
+
+This completes the integration of HeroUI with Tailwind CSS.
+
+### Finalizing HeroUI Integration
+
+1. **Create a Provider Component**
+   Create a file named `providers.tsx` in the `(frontend)` folder with the following content:
+   ```tsx
+   // app/providers.tsx
+   'use client';
+
+   import { HeroUIProvider } from '@heroui/react';
+
+   export function Providers({ children }: { children: React.ReactNode }) {
+     return (
+       <HeroUIProvider>
+         {children}
+       </HeroUIProvider>
+     );
+   }
+   ```
+
+2. **Update the Root Layout**
+   Modify the `layout.tsx` file in the `(frontend)` folder to include the `Providers` component and ensure Tailwind CSS styles are applied. The updated file should look like this:
+   ```tsx
+   import React from 'react';
+   import './styles.css';
+   import { Providers } from './providers';
+
+   export const metadata = {
+     description: 'A blank template using Payload in a Next.js app.',
+     title: 'Payload Blank Template',
+   };
+
+   export default async function RootLayout(props: { children: React.ReactNode }) {
+     const { children } = props;
+
+     return (
+       <html lang="en" className="dark">
+         <Providers>
+           <body>
+             <main>{children}</main>
+           </body>
+         </Providers>
+       </html>
+     );
+   }
+   ```
+
+This completes the integration of HeroUI with Payload and Next.js.
+
+### Important Note for HeroUI Usage 🚨
+
+When using HeroUI components, **you must import the component from the individual package**, not from `@heroui/react`. This is crucial to avoid potential problems or incompatibilities.
+
+#### Example:
+```tsx
+// app/page.tsx
+import { Button } from '@heroui/button';
+
+export default function Page() {
+  return (
+    <div>
+      <Button>Click me</Button>
+    </div>
+  );
+}
+```
+
+Always ensure that your imports follow this pattern to maintain compatibility and proper functionality.
+
+### Handling Undefined Object Errors in Next.js
+
+When working with Next.js and libraries like Payload CMS, you might encounter runtime errors related to undefined objects. These errors often occur due to the mismatch between server-side and client-side rendering contexts.
+
+#### Solution
+
+To resolve this issue, ensure that any code relying on client-side-only libraries or objects is executed within a client-side context. For example, you can:
+
+1. Use dynamic imports with `ssr: false` for components that depend on client-side libraries.
+2. Wrap client-side logic in `useEffect` or similar hooks to ensure it only runs after the component has mounted.
+
+#### Example
+
+In the `page.tsx` file, the following approach was used to avoid undefined object errors:
+
+```tsx
+const headers = await getHeaders();
+const payloadConfig = await config;
+const payload = await getPayload({ config: payloadConfig });
+const { user } = await payload.auth({ headers });
+```
+
+This ensures that the `payload.auth` method is executed in a server-side context where the required headers are available, preventing runtime errors.
+
+### Additional Notes on Handling Undefined Object Errors
+
+To further streamline the approach between server-side and client-side rendering, it is recommended to:
+
+1. **Separate Components**: Create components specifically for server-side or client-side rendering to avoid mixing contexts. This ensures a clear separation of concerns and reduces potential runtime errors.
+
+2. **Dedicated Pages**: Use dedicated pages for server-side or client-side logic instead of combining both in a single page.
+
+3. **HeroUI Specific Note**: When using HeroUI components, always include `'use client'` at the top of the file to ensure proper client-side rendering.
+
+#### Example
+
+For HeroUI components:
+
+```tsx
+'use client';
+
+import { Button } from '@heroui/button';
+
+export default function Page() {
+  return (
+    <div>
+      <Button>Click me</Button>
+    </div>
+  );
+}
+```
+
+This ensures that HeroUI components are rendered correctly in a client-side context.
+
 ### Notes
 - The project uses `pnpm` as the package manager.
 - Ensure that your Node.js version matches the requirements specified in the `package.json` file under the `engines` field.

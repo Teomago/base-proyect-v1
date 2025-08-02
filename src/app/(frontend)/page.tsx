@@ -5,7 +5,8 @@ import React from 'react'
 import { fileURLToPath } from 'url'
 
 import config from '@/payload.config'
-import './styles.css'
+
+import Home from './pages/home'
 
 export default async function HomePage() {
   const headers = await getHeaders()
@@ -16,16 +17,11 @@ export default async function HomePage() {
   const fileURL = `vscode://file/${fileURLToPath(import.meta.url)}`
 
   return (
-    <div className="home">
-      <div className="bg-gray-700 font-mono p-8 rounded-lg shadow-xl shadow-zinc-800">
-        <h1 className="w-fit font-bold size-16">Titulo de prueba</h1>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat excepturi reiciendis nisi
-          explicabo provident vitae amet blanditiis autem quo. Recusandae inventore eius optio
-          laborum quis quam voluptas nesciunt, deleniti soluta.
-        </p>
+    <div className="flex flex-col justify-between items-center h-screen p-12 max-w-4xl mx-auto overflow-hidden">
+      <div className="w-full">
+        <Home />
       </div>
-      <div className="content">
+      <div className="flex flex-col items-center justify-center flex-grow text-center">
         <picture>
           <source srcSet="https://raw.githubusercontent.com/payloadcms/payload/main/packages/ui/src/assets/payload-favicon.svg" />
           <Image
@@ -35,11 +31,11 @@ export default async function HomePage() {
             width={65}
           />
         </picture>
-        {!user && <h1>Welcome to your new project.</h1>}
-        {user && <h1>Welcome back, {user.email}</h1>}
-        <div className="links">
+        {!user && <h1 className="text-4xl font-bold mt-10">Welcome to your new project.</h1>}
+        {user && <h1 className="text-4xl font-bold mt-10">Welcome back, {user.email}</h1>}
+        <div className="flex items-center gap-3 mt-6">
           <a
-            className="admin"
+            className="text-black bg-white border border-black px-2 py-1 rounded"
             href={payloadConfig.routes.admin}
             rel="noopener noreferrer"
             target="_blank"
@@ -47,7 +43,7 @@ export default async function HomePage() {
             Go to admin panel
           </a>
           <a
-            className="docs"
+            className="text-white bg-black border border-white px-2 py-1 rounded"
             href="https://payloadcms.com/docs"
             rel="noopener noreferrer"
             target="_blank"
@@ -56,9 +52,9 @@ export default async function HomePage() {
           </a>
         </div>
       </div>
-      <div className="footer">
-        <p>Update this page by editing</p>
-        <a className="codeLink" href={fileURL}>
+      <div className="flex flex-col items-center gap-2 mt-6">
+        <p className="m-0">Update this page by editing</p>
+        <a className="no-underline px-2 py-1 bg-gray-700 rounded text-white" href={fileURL}>
           <code>app/(frontend)/page.tsx</code>
         </a>
       </div>

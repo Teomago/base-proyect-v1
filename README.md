@@ -303,13 +303,13 @@ To implement email functionality using Brevo, follow these steps:
    Add the following environment variables to the `.env` file of the project:
 
    ```properties
-   BREVO_API_KEY=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
-   BREVO_EMAILS_ACTIVE=true
-   BREVO_SENDER_NAME=Teomago
-   BREVO_SENDER_EMAIL=teo.ibagon@gmail.com
+   BREVO_API_KEY=XXXXXXXXXX
+   BREVO_EMAILS_ACTIVE=XXXXXXXXXX
+   BREVO_SENDER_NAME=XXXXXXXXXX
+   BREVO_SENDER_EMAIL=XXXXXXXXXX
    ```
 
-   - `BREVO_API_KEY`: The API key provided by Brevo to authenticate requests.
+   - `BREVO_API_KEY`: Replace `XXXXXXXXXX` with the API key provided by Brevo to authenticate requests.
    - `BREVO_EMAILS_ACTIVE`: Controls whether email sending is enabled or not.
    - `BREVO_SENDER_NAME`: The sender's name that will appear in the sent emails.
    - `BREVO_SENDER_EMAIL`: The sender's email address.

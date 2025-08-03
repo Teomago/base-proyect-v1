@@ -12,7 +12,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
 
   return (
     <html lang="en" className="dark">
-      <body>
+      <body className="font-sans">
         <Providers>
           <main>{children}</main>
         </Providers>

@@ -399,3 +399,163 @@ To implement email functionality using Brevo, follow these steps:
    ```
 
 These steps ensure that the email functionality is correctly configured and ready to be used in the project.
+
+### Login System Documentation
+
+To implement the login system for non-administrative users, the following structure and functionalities were added:
+
+#### 1. **Authenticated Folder**
+This folder contains the pages that are accessible only to logged-in users. It ensures that only authenticated users can view these pages.
+
+- **Structure**:
+  - `authenticated/`
+    - `layout.tsx`: Defines the layout for authenticated pages, ensuring a consistent structure.
+    - `actions/`
+      - `getUser.ts`: Contains the logic to fetch the currently logged-in user's data.
+    - `dashboard/`
+      - `page.tsx`: The main dashboard page that authenticated users see after logging in. It displays user-specific content.
+
+- **Purpose**:
+  - The `layout.tsx` ensures that all authenticated pages share a common layout.
+  - The `getUser.ts` action fetches user data to verify authentication and display personalized information.
+  - The `dashboard/page.tsx` serves as the entry point for authenticated users.
+
+#### 2. **Login Folder**
+This folder contains the functionality for user login, including the form and actions required to authenticate users.
+
+- **Structure**:
+  - `login/`
+    - `page.tsx`: The main login page where users enter their credentials.
+    - `actions/`
+      - `login.ts`: Handles the login logic, sending user credentials to the backend and processing the response.
+    - `components/`
+      - `LoginForm.tsx`: A reusable form component for user login.
+
+- **Purpose**:
+  - The `page.tsx` serves as the entry point for the login functionality.
+  - The `login.ts` action manages the communication with the backend for authentication.
+  - The `LoginForm.tsx` provides a user-friendly interface for entering login credentials.
+
+#### 3. **Components Folder**
+This folder contains reusable components that can be used across the application.
+
+- **Structure**:
+  - `components/`
+    - `SubmitButton.tsx`: A reusable button component built using HeroUI.
+
+- **Purpose**:
+  - The `SubmitButton.tsx` component is designed to be flexible and reusable, with support for loading states and custom styles.
+  - It integrates seamlessly with HeroUI and can be used in various forms and pages.
+
+### Login System Examples and Usage
+
+To better understand the usage of each part of the login system, here are examples and references for the main components, pages, and reusable variables:
+
+#### 1. **Authenticated Folder**
+- **`layout.tsx`**:
+  - **Purpose**: Provides a consistent layout for all authenticated pages.
+  - **Example Usage**:
+    ```tsx
+    import Layout from './layout';
+
+    export default function DashboardPage() {
+      return (
+        <Layout>
+          <div>Welcome to your dashboard!</div>
+        </Layout>
+      );
+    }
+    ```
+  - **Reusable Variables**:
+    - `children`: React children passed to the layout.
+
+- **`getUser.ts`**:
+  - **Purpose**: Fetches the currently logged-in user's data.
+  - **Example Usage**:
+    ```tsx
+    import getUser from './actions/getUser';
+
+    const user = await getUser();
+    console.log(user);
+    ```
+  - **Reusable Variables**:
+    - `user`: Contains user details like `id`, `name`, and `email`.
+
+- **`dashboard/page.tsx`**:
+  - **Purpose**: Displays the main dashboard for authenticated users.
+  - **Example Usage**:
+    ```tsx
+    export default function Dashboard() {
+      return <div>Dashboard Content</div>;
+    }
+    ```
+
+#### 2. **Login Folder**
+- **`page.tsx`**:
+  - **Purpose**: Entry point for the login functionality.
+  - **Example Usage**:
+    ```tsx
+    import LoginForm from './components/LoginForm';
+
+    export default function LoginPage() {
+      return (
+        <div>
+          <h1>Login</h1>
+          <LoginForm />
+        </div>
+      );
+    }
+    ```
+
+- **`login.ts`**:
+  - **Purpose**: Handles the login logic and communicates with the backend.
+  - **Example Usage**:
+    ```tsx
+    import login from './actions/login';
+
+    const response = await login({ email: 'user@example.com', password: 'password123' });
+    console.log(response);
+    ```
+  - **Reusable Variables**:
+    - `email`: User's email address.
+    - `password`: User's password.
+    - `response`: Contains the login result, including `success` and `error`.
+
+- **`LoginForm.tsx`**:
+  - **Purpose**: Provides a reusable form component for user login.
+  - **Example Usage**:
+    ```tsx
+    import LoginForm from './components/LoginForm';
+
+    export default function LoginPage() {
+      return <LoginForm />;
+    }
+    ```
+  - **Reusable Variables**:
+    - `isPending`: Indicates if the login request is in progress.
+    - `error`: Stores any error messages.
+
+#### 3. **Components Folder**
+- **`SubmitButton.tsx`**:
+  - **Purpose**: A reusable button component built using HeroUI.
+  - **Example Usage**:
+    ```tsx
+    import SubmitButton from './components/SubmitButton';
+
+    export default function ExampleForm() {
+      return (
+        <SubmitButton
+          loading={false}
+          text="Submit"
+          onPress={() => console.log('Button pressed')}
+        />
+      );
+    }
+    ```
+  - **Reusable Variables**:
+    - `loading`: Boolean to indicate loading state.
+    - `text`: Text displayed on the button.
+    - `onPress`: Function triggered when the button is pressed.
+
+### Summary
+These examples and references provide a clear understanding of how to use each part of the login system, including the main components, pages, and reusable variables. This ensures that developers can easily integrate and extend the functionality as needed.

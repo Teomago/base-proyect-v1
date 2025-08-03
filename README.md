@@ -295,14 +295,107 @@ export default function Page() {
 
 This ensures that HeroUI components are rendered correctly in a client-side context.
 
-### Notes
-- The project uses `pnpm` as the package manager.
-- Ensure that your Node.js version matches the requirements specified in the `package.json` file under the `engines` field.
-- The `test.env` file includes specific Node.js options to suppress deprecation warnings and experimental features.
+### Email Configuration with Brevo
 
-### Future Steps
-Each time we make progress in the project, this README will be updated with detailed documentation of the steps taken, including commands and code snippets.
+To implement email functionality using Brevo, follow these steps:
 
-## Questions
+1. **Environment Variables Configuration**:
+   Add the following environment variables to the `.env` file of the project:
 
-If you have any issues or questions, reach out to us on [Discord](https://discord.com/invite/payload) or start a [GitHub discussion](https://github.com/payloadcms/payload/discussions).
+   ```properties
+   BREVO_API_KEY=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
+   BREVO_EMAILS_ACTIVE=true
+   BREVO_SENDER_NAME=Teomago
+   BREVO_SENDER_EMAIL=teo.ibagon@gmail.com
+   ```
+
+   - `BREVO_API_KEY`: The API key provided by Brevo to authenticate requests.
+   - `BREVO_EMAILS_ACTIVE`: Controls whether email sending is enabled or not.
+   - `BREVO_SENDER_NAME`: The sender's name that will appear in the sent emails.
+   - `BREVO_SENDER_EMAIL`: The sender's email address.
+
+2. **Create the `brevoAdapter.ts` File**:
+   Inside the `src/utils` folder, create a file named `brevoAdapter.ts` with the following content:
+
+   ```typescript
+   import axios from 'axios'
+   import { EmailAdapter, SendEmailOptions } from 'payload'
+
+   const brevoAdapter = (): EmailAdapter => {
+     const adapter = () => ({
+       name: 'Brevo',
+       defaultFromAddress: process.env.BREVO_SENDER_EMAIL as string,
+       defaultFromName: process.env.BREVO_SENDER_NAME as string,
+       sendEmail: async (message: SendEmailOptions): Promise<unknown> => {
+         if (!process.env.BREVO_EMAILS_ACTIVE) {
+           console.log('Emails disabled, logging to console')
+           console.log(message)
+           return
+         }
+         try {
+           const res = await axios({
+             method: 'post',
+             url: 'https://api.brevo.com/v3/smtp/email',
+             headers: {
+               'api-key': process.env.BREVO_API_KEY as string,
+               'Content-Type': 'application/json',
+               Accept: 'application/json',
+             },
+             data: {
+               sender: {
+                 name: process.env.BREVO_SENDER_NAME as string,
+                 email: process.env.BREVO_SENDER_EMAIL as string,
+               },
+               to: [
+                 {
+                   email: message.to,
+                 },
+               ],
+               subject: message.subject,
+               htmlContent: message.html,
+             },
+           })
+
+           console.log('Email sent successfully')
+           return res.data
+         } catch (error) {
+           console.error('Error sending email with Brevo:', error)
+           throw error
+         }
+       },
+     })
+
+     return adapter
+   }
+
+   export default brevoAdapter
+   ```
+
+3. **Install Axios**:
+   Ensure the `axios` library is installed in the project. If not, install it using the following command:
+
+   ```bash
+   pnpm install axios
+   ```
+
+4. **Configuration in `payload.config.ts`**:
+   Import the `brevoAdapter` and configure it in `buildConfig` as the email handler:
+
+   ```typescript
+   import brevoAdapter from './utils/brevoAdapter';
+
+   export default buildConfig({
+     // ...existing code...
+     email: brevoAdapter(),
+     // ...existing code...
+   });
+   ```
+
+5. **Restart the Server**:
+   To apply the configuration correctly, restart the development server. Stop and re-run the project using the following command:
+
+   ```bash
+   pnpm dev
+   ```
+
+These steps ensure that the email functionality is correctly configured and ready to be used in the project.
